@@ -11,17 +11,17 @@ import { LoggerService } from '@my-library';
   // changeDetection: ChangeDetectionStrategy.Eager,
   })
 export class Demos {
-
-  constructor(logger: LoggerService) {
-    logger.error('esto es un error')
-    logger.warn('esto es un warn')
-    logger.info('esto es un info')
-    logger.log('esto es un log')
-  }
+  // ejemplo de servicio
+  // constructor(logger: LoggerService) {
+  //   logger.error('esto es un error')
+  //   logger.warn('esto es un warn')
+  //   logger.info('esto es un info')
+  //   logger.log('esto es un log')
+  // }
   // ejemplo de señales
-  readonly conSignal = signal(0)
-  readonly doble = computed(() => this.conSignal() * 2)
-  sinSignal = 0
+  // readonly conSignal = signal(0)
+  // readonly doble = computed(() => this.conSignal() * 2)
+  // sinSignal = 0
 
   // intervalos: number[] = []
   // changeDetectorRef = inject(ChangeDetectorRef)
@@ -41,13 +41,13 @@ export class Demos {
   //   this.intervalos.forEach(intervalo => clearInterval(intervalo))
   // }
 
-  addSignal() {
-    // this.conSignal.set(this.conSignal() + 1)
-    this.conSignal.update(value => value + 1)
-  }
-  addSinSignal() {
-    this.sinSignal++
-  }
+  // addSignal() {
+  //   // this.conSignal.set(this.conSignal() + 1)
+  //   this.conSignal.update(value => value + 1)
+  // }
+  // addSinSignal() {
+  //   this.sinSignal++
+  // }
 
   // readonly file = signal<Blob | undefined>(undefined)
   // readonly lector = resource({

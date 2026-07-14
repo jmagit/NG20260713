@@ -2,12 +2,14 @@ import { ApplicationConfig, provideBrowserGlobalErrorListeners } from '@angular/
 import { provideRouter, withComponentInputBinding } from '@angular/router';
 
 import { routes } from './app.routes';
-import { LoggerService } from '@my-library';
+import { ERROR_LEVEL, /*LoggerService*/ } from '@my-library';
+import { environment } from 'src/environments/environment';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
     provideRouter(routes, withComponentInputBinding()),
-    LoggerService,
+    // LoggerService,
+    {provide: ERROR_LEVEL, useValue: environment.ERROR_LEVEL},
   ]
 };
