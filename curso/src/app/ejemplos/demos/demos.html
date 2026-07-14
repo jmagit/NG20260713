@@ -1,1 +1,25 @@
-<p>demos works!</p>
+<!-- ejemplo de señales
+ <p>
+  <input type="button" value="con señal" (click)="addSignal()" >
+  Contador: <output>{{conSignal()}} ({{doble()}})</output>
+</p>
+<p>
+  <input type="button" value="sin señal" (click)="addSinSignal()" >
+  Contador: <output>{{sinSignal}}</output>
+</p>
+
+<p>
+  <input type="file" (change)="file.set($event?.target?.files?.[0])" >
+  <output>
+    {{ file() | json}} {{ lector.snapshot| json}}
+    <b [textContent]="lector.status()"></b>
+    @if(lector.isLoading()) {
+      Loading ...
+    } @else if(lector.hasValue()) {
+      {{lector.value()}}
+    } @else if(lector.error()) {
+      {{lector.error() | json}}
+    }
+  </output>
+</p>
+-->
