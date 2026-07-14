@@ -226,6 +226,7 @@ Para simular una librería compartida entre diferentes proyectos se crean una se
 - `src/lib/my-library/directives`
 - `src/lib/my-library/pipes`
 - `src/lib/my-library/services`
+- `src/lib/my-library/utils`
 
 Añadir el archivo `src/lib/my-library/index.ts` donde posteriormente se registrarán todos los artefactos públicos de la librería.
 
@@ -233,6 +234,27 @@ Todas las carpetas deben contener al menos un fichero para que sean supervisadas
 
 > [!TIP]
 > Crear el primer fichero `.gitkeep` y *copiar y pegar* al resto de directorios.
+
+### Personalizar la configuración de Typescript
+
+Editar el fichero `tsconfig.json` en la raíz del proyecto.
+
+Añadir al final de la sección ***"compilerOptions"*** la configuración de la librería (añadir , al final de la última propiedad):
+
+```json
+    "baseUrl": "./",
+    "paths": {
+      "@my-library": [ "src/lib/my-library" ]
+    },
+    "ignoreDeprecations": "6.0",
+    "rootDir": "."
+```
+
+Añadir al final de la sección ***"angularCompilerOptions"*** la activación de la comprobación estricta de plantillas (añadir , al final de la última propiedad):
+
+```json
+    "strictTemplates": true
+```
 
 ### Personalizar README.md
 
