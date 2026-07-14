@@ -2,16 +2,46 @@
 import { JsonPipe } from '@angular/common';
 import { ChangeDetectorRef, Component, computed, effect, inject, resource, signal } from '@angular/core';
 import { LoggerService } from '@my-library';
+import { Unsubscribable } from 'rxjs';
+import { NotificationService, NotificationType } from 'src/app/common-services';
+import { Notification } from 'src/app/layout';
 
 @Component({
   selector: 'app-demos',
-  imports: [ JsonPipe ],
+  imports: [JsonPipe, Notification],
   templateUrl: './demos.html',
   styleUrl: './demos.css',
   // changeDetection: ChangeDetectionStrategy.Eager,
-  })
+  // providers: [ NotificationService ]
+})
 export class Demos {
-  // ejemplo de servicio
+  public vm = inject(NotificationService)
+  public logger = inject(LoggerService)
+
+  // ejemplo del servicio NotificationService
+  // private suscriptor: Unsubscribable | undefined;
+  // ngOnInit(): void {
+  //   this.suscriptor = this.vm.Notificacion.subscribe(n => {
+  //     if (n.Type !== NotificationType.error) { return; }
+  //     window.alert(`Suscripción: ${n.Message}`);
+  //     this.vm.remove(this.vm.Listado().length - 1);
+  //   });
+  // }
+  // ngOnDestroy(): void {
+  //   if (this.suscriptor) {
+  //     this.suscriptor.unsubscribe();
+  //   }
+  // }
+  // constructor() {
+  //   effect(()=> {
+  //     if(this.vm.HayNotificaciones() && this.vm.Listado()[this.vm.Listado().length - 1].Type === NotificationType.error) {
+  //       window.alert(`Efecto secundarios: ${this.vm.Listado()[this.vm.Listado().length - 1].Message}`);
+  //       this.vm.remove(this.vm.Listado().length - 1);
+  //     }
+  //   })
+  // }
+
+  // ejemplo del servicio LoggerService
   // constructor(logger: LoggerService) {
   //   logger.error('esto es un error')
   //   logger.warn('esto es un warn')
