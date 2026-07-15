@@ -39,4 +39,7 @@ export class LoggerService {
       console.log(message)
     }
   }
+
+  public get ErrorLevel() { return this.nivel; }
+
 }
