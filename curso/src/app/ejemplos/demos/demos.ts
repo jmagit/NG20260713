@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { JsonPipe } from '@angular/common';
+import { CommonModule, JsonPipe } from '@angular/common';
 import { ChangeDetectorRef, Component, computed, effect, inject, resource, signal } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { LoggerService } from '@my-library';
 import { Unsubscribable } from 'rxjs';
 import { NotificationService, NotificationType } from 'src/app/common-services';
@@ -8,7 +9,7 @@ import { Notification } from 'src/app/layout';
 
 @Component({
   selector: 'app-demos',
-  imports: [JsonPipe, Notification],
+  imports: [JsonPipe, Notification, FormsModule, CommonModule, ],
   templateUrl: './demos.html',
   styleUrl: './demos.css',
   // changeDetection: ChangeDetectionStrategy.Eager,
@@ -17,6 +18,58 @@ import { Notification } from 'src/app/layout';
 export class Demos {
   public vm = inject(NotificationService)
   public logger = inject(LoggerService)
+
+  readonly nombre = signal<string>('mundo')
+  readonly fontSize = signal(24)
+  readonly listado = signal([
+    {id: 1, nombre: 'Madrid'},
+    {id: 2, nombre: 'barcelona'},
+    {id: 3, nombre: 'SEVILLA'},
+    {id: 4, nombre: 'ciudad Real'},
+  ])
+  readonly idProvincia = signal(2)
+  readonly total = computed(() => this.listado().length)
+
+  fecha = new Date('2026-07-15')
+
+  get Fecha(): string { return this.fecha.toISOString().substring(0, 10)}
+  set Fecha(value: string) {
+    const f = new Date(value)
+    if(f.toString() === 'Invalid date' || f === this.fecha) return
+    this.fecha = f
+  }
+
+  readonly resultado = signal('')
+  readonly visible = signal(true)
+  readonly estetica = signal({ importante: true, error: false, urgente: true })
+
+  saluda() {
+    this.resultado.set(`Hola ${this.nombre()}`)
+  }
+
+  despide() {
+    this.resultado.set(`Adios ${this.nombre()}`)
+  }
+
+  di(algo: string) {
+    this.resultado.set(`Dice ${algo}`)
+  }
+
+  cambia() {
+    this.visible.update(value => !value)
+    this.estetica.update(value => ({...value, importante: !value.importante, error: !value.error}))
+  }
+
+  calcula(a: number, b: number): number { return a + b }
+
+  add(provincia: string) {
+    const id = this.listado()[this.listado().length - 1].id + 1
+    // mala practica
+    // this.listado().push({id, nombre: provincia})
+    // this.listado.set([...this.listado()])
+    this.listado.update(value => [...value, {id, nombre: provincia}])
+    this.idProvincia.set(id)
+  }
 
   // ejemplo del servicio NotificationService
   // private suscriptor: Unsubscribable | undefined;
