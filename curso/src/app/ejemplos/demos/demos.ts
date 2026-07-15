@@ -2,14 +2,16 @@
 import { CommonModule, JsonPipe } from '@angular/common';
 import { ChangeDetectorRef, Component, computed, effect, inject, resource, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { LoggerService } from '@my-library';
+import { CapitalizePipe, ElipsisPipe, ExecPipe, LoggerService, Sizer, StripTagsPipe } from '@my-library';
 import { Unsubscribable } from 'rxjs';
 import { NotificationService, NotificationType } from 'src/app/common-services';
 import { Notification } from 'src/app/layout';
+import { Card, FormButtons } from "src/app/common-component";
 
 @Component({
   selector: 'app-demos',
-  imports: [JsonPipe, Notification, FormsModule, CommonModule, ],
+  imports: [JsonPipe, Notification, FormsModule, CommonModule, ExecPipe,
+    ElipsisPipe, CapitalizePipe, StripTagsPipe, Sizer, Card, FormButtons],
   templateUrl: './demos.html',
   styleUrl: './demos.css',
   // changeDetection: ChangeDetectionStrategy.Eager,
@@ -60,7 +62,14 @@ export class Demos {
     this.estetica.update(value => ({...value, importante: !value.importante, error: !value.error}))
   }
 
-  calcula(a: number, b: number): number { return a + b }
+  constructor() {
+    this.calcula = this.calcula.bind(this)
+  }
+  contador = 0
+  calcula(a: number, b: number): number {
+    this.logger.warn(`Calculos ${++this.contador}`)
+    return a + b
+  }
 
   add(provincia: string) {
     const id = this.listado()[this.listado().length - 1].id + 1

@@ -10,7 +10,7 @@ import { Component, model } from '@angular/core';
       <button (click)="inc()">+</button>
     </div>
   `,
-  host: { 'role': 'slider', '[attr.aria-valuenow]': 'size' }
+  host: { 'role': 'slider', '[attr.aria-valuenow]': 'size()' }
 })
 export class Sizer {
   size = model(12);

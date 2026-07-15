@@ -1,11 +1,12 @@
 import { Routes } from '@angular/router';
 import { Home, PageNotFound } from './layout';
-import { Demos } from './ejemplos';
+import { Calculadora, Demos } from './ejemplos';
 
 export const routes: Routes = [
   { path: '', pathMatch: 'full', component: Home },
   { path: 'inicio', component: Home },
   { path: 'demos', component: Demos },
+  { path: 'calculadora', component: Calculadora },
 
   { path: '404.html', component: PageNotFound },
   { path: '**', component: PageNotFound },
@@ -15,6 +16,7 @@ export function generaMenu(): Option[] {
   return [
     { texto: 'Inicio', icono: 'fa-solid fa-house', path: '/inicio', visible: true },
     { texto: 'Demos', icono: 'fa-solid fa-person-chalkboard', path: '/demos', visible: true },
+    { texto: 'Calculadora', icono: 'fa-solid fa-calculator', path: '/calculadora', visible: true },
     { texto: 'Falla', icono: 'fa-solid fa-ban', path: '/desconocido', visible: true },
   ]
 }
