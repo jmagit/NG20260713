@@ -1,3 +1,54 @@
+<h1>Hola {{nombre() | uppercase}}</h1>
+<p>
+  <input type="text" [(ngModel)]="nombre" >
+  <input type="button" value="saluda" (click)="saluda()" >
+  <input type="button" value="despide" (click)="despide()" >
+  <input type="button" value="di algo" (click)="di('algo')" >
+  <input type="button" value="cambia" (click)="cambia()" >
+</p>
+
+<p [textContent]="resultado()">Esto se pierde</p>
+<p [innerHTML]="resultado()">Esto se pierde</p>
+
+<p [hidden]="!visible()">Ahora me ves</p>
+@if(visible()) {
+  <p>Ahora existo</p>
+}
+
+<p [class]="estetica()">Lorem ipsum dolor sit amet consectetur adipisicing elit.
+  Rerum nulla minima quidem deserunt perspiciatis eum quis tempora praesentium voluptas
+  sint numquam harum inventore expedita cumque dicta, doloribus totam recusandae
+  excepturi.</p>
+
+<p [class.semi-visible]="!visible()">Ahora me ves bien</p>
+
+<p><b>Calcula:</b> 2 + {{fontSize()}} = {{ 2 + fontSize() }} = {{ calcula(2, fontSize()) | currency:'EUR':'symbol':'1.2-2' }}</p>
+<p><b>Fecha:</b> {{ fecha | date:'dd/MMMM/yyyy'}} <input type="date" [(ngModel)]="Fecha" ></p>
+
+<ul>
+  @for(item of listado() | slice:-5; track item.id) {
+  <li [style.background-color]="$odd ? 'lightskyblue' : 'lightcyan'">
+    {{item.nombre | titlecase}} ({{item.id}}) [Elemento {{$index + 1}} de {{$count}}]
+  </li>
+  } @empty {
+    <li>No hay provincias que mostrar</li>
+  }
+</ul>
+<p><b>Total:</b> {{total()}}</p>
+
+<p>
+  <select [(ngModel)]="idProvincia" >
+  <option value="">--Elige opción--</option>
+  @for(p of listado(); track p.id) {
+    <option [value]="p.id">{{p.nombre}}</option>
+  }
+  </select>
+  <b>Seleccionada:</b> <output [textContent]="idProvincia()"></output>
+  <input type="text" value="Tabarnia" #txtProvincia >
+  <button type="button" (click)="add(txtProvincia.value)">add</button>
+</p>
+<p>{{listado() | json}}</p>
+
 <!-- ejemplo de servicios
 <p>
   <input type="button" value="Error" (click)="vm.add('Esto es una notificación de error')" >
