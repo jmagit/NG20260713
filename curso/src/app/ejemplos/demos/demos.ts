@@ -7,11 +7,12 @@ import { Unsubscribable } from 'rxjs';
 import { NotificationService, NotificationType } from 'src/app/common-services';
 import { Notification } from 'src/app/layout';
 import { Card, FormButtons } from "src/app/common-component";
+import { SimboloDecimal, Calculadora } from '../calculadora/calculadora';
 
 @Component({
   selector: 'app-demos',
   imports: [JsonPipe, Notification, FormsModule, CommonModule, ExecPipe,
-    ElipsisPipe, CapitalizePipe, StripTagsPipe, Sizer, Card, FormButtons],
+    ElipsisPipe, CapitalizePipe, StripTagsPipe, Sizer, Card, FormButtons, Calculadora],
   templateUrl: './demos.html',
   styleUrl: './demos.css',
   // changeDetection: ChangeDetectionStrategy.Eager,
@@ -153,4 +154,28 @@ export class Demos {
   //   })
   // })
 
+  // Ejemplo de Calculadora
+
+  idiomas = signal([
+    { codigo: 'en-US', region: 'USA' },
+    { codigo: 'es', region: 'España' },
+    { codigo: 'pt', region: 'Portugal' },
+  ]).asReadonly();
+  idioma = signal(this.idiomas()[0].codigo);
+  calculos = signal<Calculo[]>([]);
+  valCalculadora = signal(666);
+  simbolo: SimboloDecimal = ','
+
+  ponResultado(origen: string, valor: number) {
+    this.calculos.update(value => [ ...value, {
+      pos: this.calculos.length + 1,
+      origen,
+      valor: +valor
+    }]);
+  }
+}
+interface Calculo {
+  pos: number
+  origen: string
+  valor: number
 }

@@ -1,4 +1,49 @@
 <h1>Hola {{nombre() | striptags | elipsis:10 | uppercase}}</h1>
+
+<div class="container theme-dark">
+  <div class="row">
+    <div class="col">
+      <calculadora [separador-decimal]="simbolo" (updated)="ponResultado('IZQ', $event)" />
+    </div>
+    <table class="col table table-striped">
+      <thead>
+        <tr>
+          <th>Nº</th>
+          <th>Calc</th>
+          <th>Resultado</th>
+        </tr>
+      </thead>
+      <tfoot>
+        <tr>
+          <td colspan="3">
+            Idioma:
+            <select [(ngModel)]="idioma">
+              @for (i of idiomas(); track i.codigo) {
+                <option [value]="i.codigo">{{ i.region }}</option>
+              }
+            </select>
+          </td>
+        </tr>
+      </tfoot>
+      <tbody>
+        @for (r of calculos() | slice: -8; track r) {
+          <tr>
+            <td class="text-right">{{ r.pos }}</td>
+            <td>{{ r.origen }}</td>
+            <td class="text-right" [style.font-size.em]="1.5">{{ r.valor | number: '1.0-8' : idioma() }}</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+    <div class="col">
+      <calculadora [init]="valCalculadora()" (updated)="ponResultado('DER', $event)"></calculadora>
+    </div>
+  </div>
+  <div class="row">
+    <input type="number" [(ngModel)]="valCalculadora" />
+  </div>
+</div>
+
 <p>
   <input type="text" [(ngModel)]="nombre" >
   <input type="button" value="saluda" (click)="saluda()" >
