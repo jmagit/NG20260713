@@ -83,6 +83,27 @@ export class UppercaseValidator implements Validator {
   }
 }
 
+export function lowercaseValidator(): ValidatorFn {
+  return (control: AbstractControl): ValidationErrors | null => {
+    if (!control.value) {
+      return null;
+    }
+    return control.value === control.value.toLowercase()
+      ? null
+      : { lowercase: 'Tiene que estar en minúsculas' };
+  };
+}
+
+@Directive({
+  selector: '[lowercase][formControlName],[lowercase][formControl],[lowercase][ngModel]',
+  providers: [{ provide: NG_VALIDATORS, useExisting: LowercaseValidator, multi: true }],
+})
+export class LowercaseValidator implements Validator {
+  validate(control: AbstractControl): ValidationErrors | null {
+    return lowercaseValidator()(control);
+  }
+}
+
 @Directive({
   selector: '[type][formControlName],[type][formControl],[type][ngModel]',
   providers: [

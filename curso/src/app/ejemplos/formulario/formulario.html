@@ -15,14 +15,14 @@
   <div>
     <label for="nombre">nombre:</label>
     <input type="text" id="nombre" name="nombre" [(ngModel)]="vm.Elemento().nombre" #nombre="ngModel"
-      required maxlength="10" minlength="2">
+      notblank maxlength="10" minlength="2" uppercase>
     <option class="error" [hidden]="nombre.valid || miForm.pristine" >{{ nombre.errors | errormsg }}</option>
   </div>
   <div>
     <label for="apellidos">apellidos:</label>
     <input type="text" id="apellidos" name="apellidos" [(ngModel)]="vm.Elemento().apellidos" #apellidos="ngModel"
-      maxlength="10" minlength="2">
-    <option class="error" [hidden]="apellidos.valid || miForm.pristine" >{{ apellidos.errors | errormsg }}</option>
+      maxlength="10" minlength="2" pattern="^[A-Z ]+$">
+    <option class="error" [hidden]="apellidos.valid || miForm.pristine" >{{ apellidos.errors | errormsg:'Tiene que estar en mayúsculas' }}</option>
   </div>
   <div>
     <label for="edad">edad:</label>
@@ -32,14 +32,14 @@
   </div>
   <div>
     <label for="correo">correo:</label>
-    <input type="email" id="correo" name="correo" [(ngModel)]="vm.Elemento().correo" #correo="ngModel" email>
+    <input type="email" id="correo" name="correo" [(ngModel)]="vm.Elemento().correo" #correo="ngModel" /*email*/>
     <option class="error" [hidden]="correo.valid || miForm.pristine" >{{ correo.errors | errormsg }}</option>
   </div>
   <div>
     <label for="nif">nif:</label>
     <input type="text" id="nif" name="nif" [(ngModel)]="vm.Elemento().nif" #nif="ngModel"
-      pattern="^\d{1,8}[A-Za-z]$">
-    <option class="error" [hidden]="nif.valid || miForm.pristine" >{{ nif.errors | errormsg:'debe tener de 1 a 8 dígitos seguidos por una letra' }}</option>
+      nifnie>
+    <option class="error" [hidden]="nif.valid || miForm.pristine" >{{ nif.errors | errormsg }}</option>
   </div>
   <div>
     <input type="button" value="enviar" (click)="vm.send()" [disabled]="miForm.invalid"/>
