@@ -1,0 +1,55 @@
+<div class="col-md-12">
+  <div class="card card-container">
+    <img id="profile-img" src="//ssl.gstatic.com/accounts/ui/avatar_2x.png" alt="User icon" class="profile-img-card d-none d-sm-block" />
+    <form novalidate [class.is-invalid]="fieldsTree().invalid()">
+      <div class="form-floating mb-2">
+        <input id="idUsuario" class="form-control" [class.is-invalid]="fieldsTree.idUsuario().invalid()" type="email"
+          [formField]="fieldsTree.idUsuario" placeholder=" ">
+        <label for="idUsuario">Usuario: </label>
+        <span class="invalid-feedback">{{fieldsTree.idUsuario().errors() | error2text}}</span>
+      </div>
+      <div class="form-floating mb-2">
+        <input id="nombre" class="form-control" [class.is-invalid]="fieldsTree.nombre().invalid()" type="text"
+          [formField]="fieldsTree.nombre" autocomplete="username" placeholder=" ">
+        <label for="nombre">Nombre: </label>
+        <span class="invalid-feedback">{{fieldsTree.nombre().errors() | error2text}}</span>
+      </div>
+      <fieldset>
+        <div class="form-floating mb-2">
+          <input id="passwordValue" class="form-control" [class.is-invalid]="fieldsTree.password.passwordValue().invalid()" type="password"
+            [formField]="fieldsTree.password.passwordValue" autocomplete="new-password" placeholder=" ">
+          <label for="passwordValue">Contraseña: </label>
+          <span class="invalid-feedback">{{fieldsTree.password.passwordValue().errors() | error2text}}</span>
+        </div>
+        <div class="form-floating mb-2">
+          <input id="passwordConfirm" class="form-control" [class.is-invalid]="fieldsTree.password.passwordConfirm().invalid()"
+            type="password" [formField]="fieldsTree.password.passwordConfirm" autocomplete="new-password" placeholder=" ">
+          <label for="passwordConfirm">Confirme la contraseña: </label>
+          <span class="invalid-feedback">{{fieldsTree.password.passwordConfirm().errors() | error2text}}</span>
+        </div>
+      </fieldset>
+      <div>
+        <h4>Roles</h4>
+        @if(listado().length > 0) {
+        <div class="input-group">
+          <select class="form-select" #roles>
+            @for(role of listado(); track role) {
+            <option>{{role}}</option>
+            }
+          </select>
+          <button type="button" class="btn btn-outline-secondary" (click)="addRole(roles.value)">Añadir</button>
+        </div>
+        }
+        <ul class="list-group my-2">
+        @for(row of fieldsTree.roles; track row) {
+          <li class="list-group-item d-flex justify-content-between align-items-start">
+            <div class="ms-2 me-auto">{{row.role().value()}}</div>
+            <button type="button" class="btn-close" aria-label="Close" (click)="deleteRole(row.role().value())"></button>
+          </li>
+        }
+        </ul>
+      </div>
+      <button type="button" class="btn btn-outline-primary" (click)="send()" [disabled]="fieldsTree().invalid()">Enviar</button>
+    </form>
+  </div>
+</div>

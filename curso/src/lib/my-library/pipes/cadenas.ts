@@ -112,4 +112,4 @@ export class ErrorToTextPipe implements PipeTransform {
   }
 }
 
-export const PIPES_CADENAS = [ElipsisPipe, CapitalizePipe, StripTagsPipe, NormalizePipe, ErrorMessagePipe,]
+export const PIPES_CADENAS = [ElipsisPipe, CapitalizePipe, MaskPipe, StripTagsPipe, NormalizePipe, ErrorMessagePipe,]

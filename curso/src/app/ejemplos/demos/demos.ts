@@ -2,7 +2,7 @@
 import { CommonModule, JsonPipe } from '@angular/common';
 import { ChangeDetectorRef, Component, computed, effect, inject, resource, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { CapitalizePipe, ElipsisPipe, ExecPipe, LoggerService, Sizer, StripTagsPipe } from '@my-library';
+import { CapitalizePipe, ElipsisPipe, ExecPipe, LoggerService, PIPES_CADENAS, Sizer, StripTagsPipe } from '@my-library';
 import { Unsubscribable } from 'rxjs';
 import { NotificationService, NotificationType } from 'src/app/common-services';
 import { Notification } from 'src/app/layout';
@@ -12,7 +12,9 @@ import { SimboloDecimal, Calculadora } from '../calculadora/calculadora';
 @Component({
   selector: 'app-demos',
   imports: [JsonPipe, /*Notification, */ FormsModule, CommonModule, ExecPipe,
-    ElipsisPipe, CapitalizePipe, StripTagsPipe, Sizer, Card, FormButtons, Calculadora],
+    // ElipsisPipe, CapitalizePipe, StripTagsPipe,
+    PIPES_CADENAS,
+    Sizer, Card, FormButtons, Calculadora],
   templateUrl: './demos.html',
   styleUrl: './demos.css',
   // changeDetection: ChangeDetectionStrategy.Eager,

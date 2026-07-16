@@ -3,4 +3,6 @@ export const environment = {
   apiURL: '/api/',
   securityApiURL: '/auth/',
   ERROR_LEVEL: 1,
+  defaultUsername: '',
+  defaultPassword: '',
 };

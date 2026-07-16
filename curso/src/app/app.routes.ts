@@ -1,6 +1,9 @@
 import { Routes } from '@angular/router';
 import { Home, PageNotFound } from './layout';
 import { Calculadora, Demos } from './ejemplos';
+import { LoginForm } from './security/login/login';
+import { RegisterUser } from './security/register-user/register-user';
+import { AuthService } from './security/servicios';
 
 export const routes: Routes = [
   { path: '', pathMatch: 'full', component: Home },
@@ -10,11 +13,14 @@ export const routes: Routes = [
 
   { path: 'dashboard', loadComponent: () => import('./ejemplos/dashboard/dashboard'), /*canActivate: [ AuthCanActivate]*/ },
 
+  { path: 'login', component: LoginForm },
+  { path: 'registro', component: RegisterUser },
+
   { path: '404.html', component: PageNotFound },
   { path: '**', component: PageNotFound },
 ];
 
-export function generaMenu(): Option[] {
+export function generaMenu(_auth: AuthService): Option[] {
   return [
     { texto: 'Inicio', icono: 'fa-solid fa-house', path: '/inicio', visible: true },
     { texto: 'Demos', icono: 'fa-solid fa-person-chalkboard', path: '/demos', visible: true },
