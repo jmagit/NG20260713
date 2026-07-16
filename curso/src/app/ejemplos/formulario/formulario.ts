@@ -2,6 +2,7 @@ import { Component, inject, Service, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ErrorMessagePipe, NIFNIEValidator, NotblankValidator, TypeValidator, UppercaseValidator } from '@my-library';
 import { NotificationService } from 'src/app/common-services';
+import { RESTDAOService } from 'src/app/core';
 
 type Modo = 'add' | 'edit'
 
@@ -20,8 +21,16 @@ const INIT_VALUE: Persona = {
 }
 
 @Service()
+class PersonasDAOService extends RESTDAOService<Persona, number> {
+  constructor() {
+    super('personas')
+  }
+}
+
+@Service()
 class PersonaViewModelService {
   private readonly notify = inject(NotificationService)
+  private readonly dao = inject(PersonasDAOService)
 
   Modo = signal<Modo>('add')
   Elemento = signal<Persona>({...INIT_VALUE})
@@ -32,8 +41,15 @@ class PersonaViewModelService {
   }
 
   edit(key: number) {
-    this.Elemento.set({id: key, nombre: 'Pepito', apellidos: 'Grillo', edad: 99, correo: 'pgrillo@example.com', nif: '4g'})
-    this.Modo.set('edit')
+    this.dao.get(key).subscribe({
+      next: data => {
+        this.Elemento.set(data)
+        this.Modo.set('edit')
+      },
+      error: err => this.notify.add(err.message)
+    })
+    // this.Elemento.set({id: key, nombre: 'Pepito', apellidos: 'Grillo', edad: 99, correo: 'pgrillo@example.com', nif: '4g'})
+    // this.Modo.set('edit')
   }
 
   cancel() {
@@ -44,12 +60,20 @@ class PersonaViewModelService {
   send() {
     switch(this.Modo()) {
       case 'add':
-        this.notify.add(`POST ${JSON.stringify(this.Elemento())}`)
-        this.cancel()
+        this.dao.add(this.Elemento()).subscribe({
+          next: () => this.cancel(),
+          error: err => this.notify.add(err.message),
+        })
+        // this.notify.add(`POST ${JSON.stringify(this.Elemento())}`)
+        // this.cancel()
         break;
       case 'edit':
-        this.notify.add(`PUT ${JSON.stringify(this.Elemento())}`)
-        this.cancel()
+        this.dao.change(this.Elemento().id, this.Elemento()).subscribe({
+          next: () => this.cancel(),
+          error: err => this.notify.add(err.message),
+        })
+        // this.notify.add(`PUT ${JSON.stringify(this.Elemento())}`)
+        // this.cancel()
         break;
     }
   }
