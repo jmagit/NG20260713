@@ -29,9 +29,9 @@ export class Calculadora implements OnInit, OnChanges {
 
   constructor(private logger: LoggerService, private notify: NotificationService) {
     this.inicia();
-    // effect(() => {
-    //   this.ponOperando((this.init() ?? 0).toString());
-    // })
+    effect(() => {
+      this.ponOperando((this.init() ?? 0).toString());
+    })
   }
 
   private separadorDecimal: SimboloDecimal = '.';
@@ -127,8 +127,8 @@ export class Calculadora implements OnInit, OnChanges {
     // acumulado = eval (acumulado + operador + miPantalla);
     // Number: double-precision IEEE 754 floating point.
     // 9.9 + 1.3, 0.1 + 0.2, 1.0 - 0.9
-    // this.Pantalla.set(parseFloat(this.acumulado.toPrecision(15)).toString());
-    this.Pantalla.set(this.acumulado.toString());
+    this.Pantalla.set(parseFloat(this.acumulado.toPrecision(15)).toString());
+    // this.Pantalla.set(this.acumulado.toString());
     this.Resumen.set(value == '=' ? '' : (`${this.Pantalla()} ${value}`));
     this.updated.emit(this.acumulado);
     this.operador = value;
@@ -139,9 +139,9 @@ export class Calculadora implements OnInit, OnChanges {
 
   // eslint-disable-next-line @angular-eslint/no-empty-lifecycle-method
   ngOnInit(): void {
-    if (this.init()) {
-      this.ponOperando(this.init());
-    }
+    // if (this.init()) {
+    //   this.ponOperando(this.init());
+    // }
   }
   // eslint-disable-next-line @angular-eslint/no-empty-lifecycle-method
   ngOnChanges(_changes: SimpleChanges): void {
