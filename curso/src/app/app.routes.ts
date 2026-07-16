@@ -8,6 +8,8 @@ export const routes: Routes = [
   { path: 'demos', component: Demos },
   { path: 'chisme/de/hacer/numeros', component: Calculadora, title: 'Calculadora' },
 
+  { path: 'dashboard', loadComponent: () => import('./ejemplos/dashboard/dashboard'), /*canActivate: [ AuthCanActivate]*/ },
+
   { path: '404.html', component: PageNotFound },
   { path: '**', component: PageNotFound },
 ];
@@ -17,6 +19,7 @@ export function generaMenu(): Option[] {
     { texto: 'Inicio', icono: 'fa-solid fa-house', path: '/inicio', visible: true },
     { texto: 'Demos', icono: 'fa-solid fa-person-chalkboard', path: '/demos', visible: true },
     { texto: 'Calculadora', icono: 'fa-solid fa-calculator', path: '/chisme/de/hacer/numeros', visible: true },
+    { texto: 'Dashboard', icono: 'fa-solid fa-table-columns', path: '/dashboard', visible: true, /* visible: auth.isInRoles('Empleados'),*/ },
     { texto: 'Falla', icono: 'fa-solid fa-ban', path: '/desconocido', visible: true },
   ]
 }

@@ -11,7 +11,7 @@ import { SimboloDecimal, Calculadora } from '../calculadora/calculadora';
 
 @Component({
   selector: 'app-demos',
-  imports: [JsonPipe, Notification, FormsModule, CommonModule, ExecPipe,
+  imports: [JsonPipe, /*Notification, */ FormsModule, CommonModule, ExecPipe,
     ElipsisPipe, CapitalizePipe, StripTagsPipe, Sizer, Card, FormButtons, Calculadora],
   templateUrl: './demos.html',
   styleUrl: './demos.css',
