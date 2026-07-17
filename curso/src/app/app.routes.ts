@@ -21,13 +21,13 @@ export const routes: Routes = [
   { path: '**', component: PageNotFound },
 ];
 
-export function generaMenu(_auth: AuthService): Option[] {
+export function generaMenu(auth: AuthService): Option[] {
   return [
     { texto: 'Inicio', icono: 'fa-solid fa-house', path: '/inicio', visible: true },
     { texto: 'Demos', icono: 'fa-solid fa-person-chalkboard', path: '/demos', visible: true },
     { texto: 'Formulario', icono: 'fa-solid fa-chalkboard-user', path: '/formulario', visible: true },
     { texto: 'Calculadora', icono: 'fa-solid fa-calculator', path: '/chisme/de/hacer/numeros', visible: true },
-    { texto: 'Dashboard', icono: 'fa-solid fa-table-columns', path: '/dashboard', visible: true, /* visible: auth.isInRoles('Empleados'),*/ },
+    { texto: 'Dashboard', icono: 'fa-solid fa-table-columns', path: '/dashboard', visible: auth.isInRoles('Empleados'), },
     { texto: 'Falla', icono: 'fa-solid fa-ban', path: '/desconocido', visible: true },
   ]
 }

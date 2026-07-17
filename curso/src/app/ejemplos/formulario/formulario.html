@@ -7,10 +7,14 @@
 <form name="miForm" #miForm="ngForm">
   <div>
     <label for="id">código:</label>
+    @if(vm.Modo() === 'add') {
     <input type="number" id="id" name="id" [(ngModel)]="vm.Elemento().id" #id="ngModel"
       required min="0">
     <option class="error" [hidden]="!id.hasError('required') || miForm.pristine" >Es obligatorio</option>
     <option class="error" [hidden]="!id.hasError('min') || miForm.pristine" >Debe ser mayor o igual a cero</option>
+    } @else {
+      <option [textContent]="vm.Elemento().id" ></option>
+    }
   </div>
   <div>
     <label for="nombre">nombre:</label>
@@ -46,3 +50,10 @@
     <input type="button" value="volver" (click)="vm.cancel()" />
   </div>
 </form>
+<h1>resource</h1>
+<p>
+  <input type="number" [(ngModel)]="id" />
+  @if(recurso.hasValue()) {
+    <option [textContent]="$any(recurso.value()).titulo" ></option>
+  }
+</p>

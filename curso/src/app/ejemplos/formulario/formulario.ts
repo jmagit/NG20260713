@@ -1,8 +1,11 @@
+import { HttpContext, httpResource } from '@angular/common/http';
 import { Component, inject, Service, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ErrorMessagePipe, NIFNIEValidator, NotblankValidator, TypeValidator, UppercaseValidator } from '@my-library';
 import { NotificationService } from 'src/app/common-services';
 import { RESTDAOService } from 'src/app/core';
+import { AUTH_REQUIRED } from 'src/app/security/servicios';
+import { environment } from 'src/environments/environment';
 
 type Modo = 'add' | 'edit'
 
@@ -23,7 +26,7 @@ const INIT_VALUE: Persona = {
 @Service()
 class PersonasDAOService extends RESTDAOService<Persona, number> {
   constructor() {
-    super('personas')
+    super('personas', { context: new HttpContext().set(AUTH_REQUIRED, true) })
   }
 }
 
@@ -87,4 +90,8 @@ class PersonaViewModelService {
 })
 export class Formulario {
   vm = inject(PersonaViewModelService)
+  id = signal(1)
+  // readonly recurso = httpResource(() => `${environment.apiURL}peliculas/${this.id()}`)
+  readonly recurso = httpResource(() => ({ url: `${environment.apiURL}libros/${this.id()}`, method: 'GET', context: new HttpContext().set(AUTH_REQUIRED, true)}))
+
 }
