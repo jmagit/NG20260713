@@ -12,7 +12,7 @@ import { environment } from 'src/environments/environment';
 import { NavigationService } from './common-services';
 import { ajaxWaitInterceptor } from './layout';
 import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptors, withInterceptorsFromDi } from '@angular/common/http';
-import { AuthInterceptor } from './security/servicios';
+import { AuthInterceptor } from './security';
 
 export const appConfig: ApplicationConfig = {
   providers: [

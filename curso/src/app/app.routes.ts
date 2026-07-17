@@ -1,9 +1,7 @@
 import { Routes, UrlSegment } from '@angular/router';
 import { Home, PageNotFound } from './layout';
 import { Calculadora, Demos, Formulario } from './ejemplos';
-import { LoginForm } from './security/login/login';
-import { RegisterUser } from './security/register-user/register-user';
-import { AuthCanActivate, AuthService, AuthWithRedirectCanActivate, InRoleCanActivate } from './security/servicios';
+import { AuthWithRedirectCanActivate, AuthCanActivate, InRoleCanActivate, LoginForm, RegisterUser, AuthService } from './security';
 
 export function graficoFiles(url: UrlSegment[]) {
   return url.length === 1 && url[0].path.endsWith('.svg') ? ({ consumed: url }) : null;

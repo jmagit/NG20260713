@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { ErrorMessagePipe, NIFNIEValidator, NotblankValidator, TypeValidator, UppercaseValidator } from '@my-library';
 import { NotificationService } from 'src/app/common-services';
 import { RESTDAOService } from 'src/app/core';
-import { AUTH_REQUIRED } from 'src/app/security/servicios';
+import { AUTH_REQUIRED } from 'src/app/security';
 import { environment } from 'src/environments/environment';
 
 type Modo = 'add' | 'edit'

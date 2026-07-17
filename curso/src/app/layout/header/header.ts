@@ -1,8 +1,7 @@
 import { Component, effect, inject, signal } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { generaMenu, Option } from 'src/app/app.routes';
-import { AuthService } from 'src/app/security/servicios';
-import { Login } from "src/app/security/login/login";
+import { Login, AuthService } from 'src/app/security';
 
 @Component({
   selector: 'app-header',
