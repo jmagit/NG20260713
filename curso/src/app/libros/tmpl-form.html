@@ -1,0 +1,53 @@
+<h1>Libro</h1>
+@if(VM.Elemento()) {
+<form #miForm="ngForm" class="row gy-2 gx-2 align-items-start">
+  @if (VM.Modo() === 'edit') {
+    <div class="col-md-2">
+      <label class="form-label-sm" for="id">Código:</label>
+      <output class="d-block" [textContent]="VM.Elemento().idLibro"></output>
+    </div>
+  }
+  <div class="form-floating col-md-10">
+    <input class="form-control" [class.is-invalid]="titulo.invalid" type="text" name="titulo" id="titulo"
+       [(ngModel)]="VM.Elemento().titulo" #titulo="ngModel" required minlength="2"
+       maxlength="50" placeholder=" ">
+    <label for="titulo">Titulo:</label>
+    <output class="invalid-feedback" [hidden]="titulo.valid">{{titulo.errors | errormsg}}</output>
+  </div>
+  <div class="form-floating col-md-4">
+    <input class="form-control" [class.is-invalid]="autor.invalid" type="text" name="autor" id="autor"
+       [(ngModel)]="VM.Elemento().autor" #autor="ngModel" required minlength="2"
+       maxlength="50" placeholder=" ">
+    <label for="autor">Autor:</label>
+    <output class="invalid-feedback" [hidden]="autor.valid">{{autor.errors | errormsg}}</output>
+  </div>
+  <div class="form-floating col-md-4">
+    <input class="form-control" [class.is-invalid]="pais.invalid" type="text" name="pais" id="pais"
+      [(ngModel)]="VM.Elemento().pais" #pais="ngModel" placeholder="pais" minlength="2">
+    <label for="pais">pais:</label>
+    <output class="invalid-feedback" [hidden]="pais.valid">{{pais.errors | errormsg}}</output>
+  </div>
+  <div class="form-floating col-md-2">
+    <input class="form-control" [class.is-invalid]="fecha.invalid" type="number" name="fecha" id="fecha"
+      [(ngModel)]="VM.Elemento().fecha" #fecha="ngModel" placeholder="fecha">
+    <label for="fecha">año:</label>
+    <output class="invalid-feedback" [hidden]="fecha.valid">{{fecha.errors | errormsg}}</output>
+  </div>
+  <div class="form-floating col-md-2">
+    <input class="form-control" [class.is-invalid]="paginas.invalid" type="number" name="paginas" id="paginas"
+      [(ngModel)]="VM.Elemento().paginas" #paginas="ngModel" placeholder="paginas" min="1">
+    <label for="paginas">páginas:</label>
+    <output class="invalid-feedback" [hidden]="paginas.valid">{{paginas.errors | errormsg}}</output>
+  </div>
+  <div class="form-floating">
+    <input class="form-control" [class.is-invalid]="wiki.invalid" type="url" name="wiki" id="wiki"
+      [(ngModel)]="VM.Elemento().wiki" #wiki="ngModel" placeholder="wiki">
+    <label for="wiki">wiki:</label>
+    <output class="invalid-feedback" [hidden]="wiki.valid">{{wiki.errors | errormsg}}</output>
+  </div>
+  <app-form-buttons (send)="VM.send()" [send-disabled]="miForm.invalid" (cancel)="VM.cancel()"
+    (delete)="VM.delete(VM.Elemento().idLibro)" [delete-visible]="VM.Modo() === 'edit'" />
+</form>
+} @else {
+  <h2>Sin datos</h2>
+}
