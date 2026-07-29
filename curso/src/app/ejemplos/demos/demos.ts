@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { CommonModule, JsonPipe } from '@angular/common';
-import { ChangeDetectorRef, Component, computed, effect, inject, resource, signal } from '@angular/core';
+import { ChangeDetectorRef, Component, computed, DestroyRef, effect, inject, resource, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CapitalizePipe, ElipsisPipe, ExecPipe, LoggerService, PIPES_CADENAS, Sizer, StripTagsPipe } from '@my-library';
 import { Unsubscribable } from 'rxjs';
@@ -8,6 +8,7 @@ import { NotificationService, NotificationType } from 'src/app/common-services';
 import { Notification } from 'src/app/layout';
 import { Card, FormButtons } from "src/app/common-component";
 import { SimboloDecimal, Calculadora } from '../calculadora/calculadora';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-demos',
@@ -84,14 +85,17 @@ export class Demos {
   }
 
   // ejemplo del servicio NotificationService
-  // private suscriptor: Unsubscribable | undefined;
-  // ngOnInit(): void {
-  //   this.suscriptor = this.vm.Notificacion.subscribe(n => {
-  //     if (n.Type !== NotificationType.error) { return; }
-  //     window.alert(`Suscripción: ${n.Message}`);
-  //     this.vm.remove(this.vm.Listado().length - 1);
-  //   });
-  // }
+  private destroyRef = inject(DestroyRef);
+  private suscriptor: Unsubscribable | undefined;
+  ngOnInit(): void {
+    this.suscriptor = this.vm.Notificacion
+    .pipe(takeUntilDestroyed(this.destroyRef))
+    .subscribe(n => {
+      if (n.Type !== NotificationType.error) { return; }
+      window.alert(`Suscripción: ${n.Message}`);
+      this.vm.remove(this.vm.Listado().length - 1);
+    });
+  }
   // ngOnDestroy(): void {
   //   if (this.suscriptor) {
   //     this.suscriptor.unsubscribe();

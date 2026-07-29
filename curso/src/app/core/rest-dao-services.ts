@@ -1,42 +1,51 @@
 import { HttpClient, HttpErrorResponse, HttpResponse } from '@angular/common/http';
-import { inject } from '@angular/core';
+import { DestroyRef, inject } from '@angular/core';
 import { Observable, of, throwError } from 'rxjs';
 import { environment } from '../../environments/environment';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 export abstract class RESTDAOService<T, K> {
   protected readonly baseUrl = environment.apiURL;
   protected http = inject(HttpClient)
+  private destroyRef = inject(DestroyRef);
 
   constructor(entidad: string, protected option = {}) {
-    if(entidad.toLocaleLowerCase().startsWith('http'))
+    if (entidad.toLocaleLowerCase().startsWith('http')) // dirección absoluta
       this.baseUrl = entidad
     else
       this.baseUrl += entidad;
   }
 
   query(extras = {}): Observable<T[]> {
-    return this.http.get<T[]>(this.baseUrl, Object.assign({}, this.option, extras));
+    return this.http.get<T[]>(this.baseUrl, Object.assign({}, this.option, extras))
+      .pipe(takeUntilDestroyed(this.destroyRef));
   }
   get(id: K, extras = {}): Observable<T> {
-    return this.http.get<T>(`${this.baseUrl}/${id}`, Object.assign({}, this.option, extras));
+    return this.http.get<T>(`${this.baseUrl}/${id}`, Object.assign({}, this.option, extras))
+      .pipe(takeUntilDestroyed(this.destroyRef));
   }
   add(item: T, extras = {}): Observable<T> {
-    return this.http.post<T>(this.baseUrl, item, Object.assign({}, this.option, extras));
+    return this.http.post<T>(this.baseUrl, item, Object.assign({}, this.option, extras))
+      .pipe(takeUntilDestroyed(this.destroyRef));
   }
   change(id: K, item: T, extras = {}): Observable<T> {
-    return this.http.put<T>(`${this.baseUrl}/${id}`, item, Object.assign({}, this.option, extras));
+    return this.http.put<T>(`${this.baseUrl}/${id}`, item, Object.assign({}, this.option, extras))
+      .pipe(takeUntilDestroyed(this.destroyRef));
   }
   remove(id: K, extras = {}): Observable<T> {
-    return this.http.delete<T>(`${this.baseUrl}/${id}`, Object.assign({}, this.option, extras));
+    return this.http.delete<T>(`${this.baseUrl}/${id}`, Object.assign({}, this.option, extras))
+      .pipe(takeUntilDestroyed(this.destroyRef));
   }
   page(page: number, rows: number = 20, orderBy?: string): Observable<{ page: number, pages: number, rows: number, list: T[] }> {
     return new Observable(subscriber => {
       const url = `${this.baseUrl}?_page=${page}&_rows=${rows}${orderBy ? ('&_sort=' + orderBy) : ''}`
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      this.http.get<any>(url, this.option).subscribe({
-        next: data => subscriber.next({ page: data.number, pages: data.totalPages, rows: data.totalElements, list: data.content }),
-        error: err => subscriber.error(err)
-      })
+      this.http.get<any>(url, this.option)
+        .pipe(takeUntilDestroyed(this.destroyRef))
+        .subscribe({
+          next: data => subscriber.next({ page: data.number, pages: data.totalPages, rows: data.totalElements, list: data.content }),
+          error: err => subscriber.error(err)
+        })
     })
   }
 
@@ -50,9 +59,9 @@ export abstract class RESTDAOService<T, K> {
 
   private clone(elemento: T, sustituto: null | undefined) {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const result: any = {...elemento}
-    for(const field in elemento) {
-      if(elemento[field] === '') {
+    const result: any = { ...elemento }
+    for (const field in elemento) {
+      if (elemento[field] === '') {
         result[field] = sustituto
       }
     }
