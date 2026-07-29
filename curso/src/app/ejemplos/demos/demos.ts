@@ -28,20 +28,20 @@ export class Demos {
   readonly nombre = signal<string>('mundo')
   readonly fontSize = signal(24)
   readonly listado = signal([
-    {id: 1, nombre: 'Madrid'},
-    {id: 2, nombre: 'barcelona'},
-    {id: 3, nombre: 'SEVILLA'},
-    {id: 4, nombre: 'ciudad Real'},
+    { id: 1, nombre: 'Madrid' },
+    { id: 2, nombre: 'barcelona' },
+    { id: 3, nombre: 'SEVILLA' },
+    { id: 4, nombre: 'ciudad Real' },
   ])
   readonly idProvincia = signal(2)
   readonly total = computed(() => this.listado().length)
 
   fecha = new Date('2026-07-15')
 
-  get Fecha(): string { return this.fecha.toISOString().substring(0, 10)}
+  get Fecha(): string { return this.fecha.toISOString().substring(0, 10) }
   set Fecha(value: string) {
     const f = new Date(value)
-    if(f.toString() === 'Invalid date' || f === this.fecha) return
+    if (f.toString() === 'Invalid date' || f === this.fecha) return
     this.fecha = f
   }
 
@@ -63,7 +63,7 @@ export class Demos {
 
   cambia() {
     this.visible.update(value => !value)
-    this.estetica.update(value => ({...value, importante: !value.importante, error: !value.error}))
+    this.estetica.update(value => ({ ...value, importante: !value.importante, error: !value.error }))
   }
 
   constructor() {
@@ -80,7 +80,7 @@ export class Demos {
     // mala practica
     // this.listado().push({id, nombre: provincia})
     // this.listado.set([...this.listado()])
-    this.listado.update(value => [...value, {id, nombre: provincia}])
+    this.listado.update(value => [...value, { id, nombre: provincia }])
     this.idProvincia.set(id)
   }
 
@@ -89,12 +89,12 @@ export class Demos {
   private suscriptor: Unsubscribable | undefined;
   ngOnInit(): void {
     this.suscriptor = this.vm.Notificacion
-    .pipe(takeUntilDestroyed(this.destroyRef))
-    .subscribe(n => {
-      if (n.Type !== NotificationType.error) { return; }
-      window.alert(`Suscripción: ${n.Message}`);
-      this.vm.remove(this.vm.Listado().length - 1);
-    });
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(n => {
+        if (n.Type !== NotificationType.error) { return; }
+        window.alert(`Suscripción: ${n.Message}`);
+        this.vm.remove(this.vm.Listado().length - 1);
+      });
   }
   // ngOnDestroy(): void {
   //   if (this.suscriptor) {
@@ -173,7 +173,7 @@ export class Demos {
   simbolo: SimboloDecimal = ','
 
   ponResultado(origen: string, valor: number) {
-    this.calculos.update(value => [ ...value, {
+    this.calculos.update(value => [...value, {
       pos: this.calculos.length + 1,
       origen,
       valor: +valor
